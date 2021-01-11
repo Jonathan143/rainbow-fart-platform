@@ -1,5 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import antdv from './plugins/antdv'
+import plugins from './plugins'
+import router from './router'
+import store from './store'
 
-createApp(App).use(antdv).mount('#app')
+console.log(process.env)
+createApp(App).use(router).use(store).use(plugins).mount('#app')

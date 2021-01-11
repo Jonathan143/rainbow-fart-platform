@@ -1,6 +1,7 @@
 {
   "name": "rainbow-fart-platform",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "start": "vite",
     "build": "vuedx-typecheck . && vite build"
