@@ -69,5 +69,9 @@ export default defineComponent({
       }
     }
   }
+
+  .rfp-layout-main {
+    padding: 24px;
+  }
 }
 </style>
