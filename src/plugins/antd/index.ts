@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   Layout,
+  Tooltip,
   Menu,
   message,
 } from 'ant-design-vue'
@@ -41,5 +42,6 @@ export default {
       .use(Input)
       .use(Layout)
       .use(Menu)
+      .use(Tooltip)
   },
 }

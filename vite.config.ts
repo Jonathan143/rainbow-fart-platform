@@ -1,25 +1,25 @@
 import { defineConfig } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
-import vitePluginImp from 'vite-plugin-imp'
+import styleImport from 'vite-plugin-style-import'
 
 export default defineConfig({
   plugins: [
     vue(),
-    vitePluginImp({
-      libList: [
+    styleImport({
+      libs: [
         {
-          libName: 'ant-design-vue',
-          style(name) {
-            return `ant-design-vue/es/${name}/style/index.css`
+          libraryName: 'ant-design-vue',
+          esModule: true,
+          resolveStyle: (name) => {
+            return `ant-design-vue/es/${name}/style/css.js`
           },
         },
       ],
     }),
   ],
   alias: {
-    //vite中alias必须以斜线开头和结尾，暂时未知原因，这样其实挺不方便的
-    '/@/': path.resolve(__dirname, './src') + '/',
+    '@/': path.resolve(__dirname, './src') + '/',
   },
   optimizeDeps: {
     include: ['lodash', 'axios', '@ant-design/icons-vue'],
