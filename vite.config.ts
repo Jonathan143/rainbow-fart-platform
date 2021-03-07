@@ -18,19 +18,20 @@ export default defineConfig({
       ],
     }),
   ],
-  alias: {
-    '@/': path.resolve(__dirname, './src') + '/',
+  resolve: {
+    alias: {
+      '@/': path.resolve(__dirname, './src') + '/',
+    },
   },
   optimizeDeps: {
-    include: ['lodash', 'axios', '@ant-design/icons-vue'],
+    include: ['@ant-design/icons-vue'],
   },
   css: {
     preprocessorOptions: {
       //这里注意，键名是scss不是sass！一字之差能让你折腾好久
       scss: {
         //这里写你想导入全局scss变量的路径
-        //这里注意只能写相对路径，alias貌似在css中不会生效
-        additionalData: "@import './src/theme/variables.scss';",
+        additionalData: "@import '@/theme/variables.scss';",
       },
     },
   },
