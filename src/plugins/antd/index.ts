@@ -8,6 +8,7 @@ import {
   Tooltip,
   Menu,
   message,
+  Table,
 } from 'ant-design-vue'
 import { App } from 'vue'
 
@@ -43,5 +44,6 @@ export default {
       .use(Layout)
       .use(Menu)
       .use(Tooltip)
+      .use(Table)
   },
 }
