@@ -18,9 +18,8 @@ declare module 'axios' {
 
 // 公共Axios实例
 const axios = Axios.create({
-  baseURL: '',
+  baseURL: `${location.origin}/api/`,
   timeout: 10000,
-  withCredentials: true,
   headers: {
     post: {
       'Content-Type': 'application/x-www-form-urlencoded',

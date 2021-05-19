@@ -18,14 +18,27 @@ export default defineConfig({
       ],
     }),
   ],
+
   resolve: {
     alias: {
       '@/': path.resolve(__dirname, './src') + '/',
     },
   },
+
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3100',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+
   optimizeDeps: {
     include: ['@ant-design/icons-vue'],
   },
+
   css: {
     preprocessorOptions: {
       //这里注意，键名是scss不是sass！一字之差能让你折腾好久
