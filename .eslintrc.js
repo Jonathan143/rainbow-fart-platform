@@ -27,6 +27,8 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/no-empty-function': 0,
     'no-unused-vars': 0,
+    'no-empty': 0,
     '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
   },
 }

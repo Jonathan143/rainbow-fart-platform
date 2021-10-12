@@ -1,9 +1,10 @@
 import { RouteRecordRaw } from 'vue-router'
+import { projectRouters } from './modules/project'
 
 /**
  * 路由注册
  */
-const routes: RouteRecordRaw[] = []
+const routes: RouteRecordRaw[] = [...projectRouters]
 
 /**
  * 在主框架内显示
@@ -19,15 +20,21 @@ const frameIn: RouteRecordRaw[] = [
         name: 'home',
         component: () => import('@/views/Home.vue'),
       },
+      ...routes,
     ],
   },
-  ...routes,
 ]
 
 /**
  * 在主框架之外显示
  */
-const frameOut: RouteRecordRaw[] = []
+const frameOut: RouteRecordRaw[] = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/user/login.vue'),
+  },
+]
 
 /**
  * 错误页面

@@ -7,10 +7,19 @@
       <div class="logo">R</div>
       <a-menu theme="dark"
         mode="inline"
-        v-model:selectedKeys="selectedKeys">
-        <a-menu-item key="1">
-          <android-outlined />
-          <span>nav 1</span>
+        v-model:selectedKeys="selectedKeys"
+        @select="onMenuSelect">
+        <a-menu-item key="home">
+          <template #icon>
+            <HomeOutlined />
+          </template>
+          <span>home</span>
+        </a-menu-item>
+        <a-menu-item key="projectIndex">
+          <template #icon>
+            <ProjectOutlined />
+          </template>
+          <span>project</span>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
@@ -30,13 +39,28 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { MenuUnfoldOutlined, AndroidOutlined } from '@ant-design/icons-vue'
+import { useRouter } from 'vue-router'
+import {
+  MenuUnfoldOutlined,
+  ProjectOutlined,
+  HomeOutlined,
+} from '@ant-design/icons-vue'
 
 export default defineComponent({
   name: 'AsideHeader',
-  components: { MenuUnfoldOutlined, AndroidOutlined },
+  components: { MenuUnfoldOutlined, ProjectOutlined, HomeOutlined },
   setup() {
-    return { collapsed: ref(true), selectedKeys: ref([]) }
+    const router = useRouter()
+
+    const onMenuSelect = ({ key }: { key: string }) => {
+      router.push({ name: key })
+    }
+
+    return {
+      collapsed: ref(true),
+      selectedKeys: ref(['home']),
+      onMenuSelect,
+    }
   },
 })
 </script>

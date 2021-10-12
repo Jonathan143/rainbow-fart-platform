@@ -1,11 +1,12 @@
 <template>
   <div class="home">
-    <div>{{a}}</div>
+    home
+    <!-- <div>{{a}}</div>
     <a-table :dataSource="dataSource"
       :columns="columns" />
 
     <a-button type="primary"
-      @click="onAddClick">add</a-button>
+      @click="onAddClick">add</a-button> -->
   </div>
 </template>
 
@@ -22,6 +23,10 @@ import {
   onUpdated,
   onUnmounted,
 } from 'vue'
+import axios from '@/plugins/api'
+
+import NPlayer from 'nplayer'
+import Hls from 'hls.js'
 
 export default defineComponent({
   name: 'Home',
@@ -69,6 +74,23 @@ export default defineComponent({
       columns.value
     })
     stop()
+
+    const finc = () => {
+      axios('https://mediachain.info/api/resource/list?page=1')
+    }
+
+    onMounted(() => {
+      // finc()
+      // const hls = new Hls()
+      // const player = new NPlayer()
+      // hls.attachMedia(player.video)
+      // hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+      //   hls.loadSource(
+      //     'https://cdn-youku-com.diudie.com/series/3402/index.m3u8'
+      //   )
+      // })
+      // player.mount(document.body)
+    })
 
     return {
       a,

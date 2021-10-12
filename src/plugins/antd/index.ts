@@ -4,6 +4,7 @@ import {
   Tag,
   Form,
   Input,
+  InputNumber,
   Layout,
   Tooltip,
   Menu,
@@ -41,6 +42,7 @@ export default {
       .use(Tag)
       .use(Form)
       .use(Input)
+      .use(InputNumber)
       .use(Layout)
       .use(Menu)
       .use(Tooltip)

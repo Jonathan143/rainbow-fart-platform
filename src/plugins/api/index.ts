@@ -31,18 +31,18 @@ const axios = Axios.create({
  *
  * @param status
  */
-const getErrorCode2text = (status: number): string => {
+const getErrorCode2text = (status: number, data: { error: string }): string => {
   let content: string
   switch (status) {
     case 400:
     case 412:
-      content = 'data.message'
+      content = data.error
       break
     case 401:
-      content = '登录已过期，请重新登录'
+      content = '您没有权限，无法访问'
       break
     case 403:
-      content = '您没有权限，无法访问'
+      content = '登录已过期，请重新登录'
       break
     case 404:
       content = '访问资源不存在'
@@ -82,8 +82,8 @@ axios.interceptors.request.use((request) => {
 // Response 过滤器
 axios.interceptors.response.use(
   (response) => {
-    const { data } = response
-    return data
+    // const { data } = response
+    return response
   },
   /** 请求无响应 */
   (error) => {
@@ -96,7 +96,7 @@ axios.interceptors.response.use(
 
         // 处理各种状态下的消息
         console.log(status, data)
-        const content = getErrorCode2text(status)
+        const content = getErrorCode2text(status, data)
 
         message.error(content, undefined, callback)
       }
