@@ -1,16 +1,12 @@
-import Axios from 'axios'
+import Axios, { AxiosRequestConfig, Method } from 'axios'
 
 import { message } from 'ant-design-vue'
 
-interface AxiosRequestMessage {
-  show?: boolean
-  callback?: () => void
-}
-
-declare module 'axios' {
-  export interface AxiosRequestConfig {
-    message?: AxiosRequestMessage
-  }
+interface RequestParams {
+  api: string
+  param: Record<string, any>
+  method?: Method
+  config?: AxiosRequestConfig
 }
 
 // 公共参数
@@ -82,8 +78,8 @@ axios.interceptors.request.use((request) => {
 // Response 过滤器
 axios.interceptors.response.use(
   (response) => {
-    // const { data } = response
-    return response
+    const { data } = response
+    return data?.data
   },
   /** 请求无响应 */
   (error) => {
@@ -120,4 +116,18 @@ axios.interceptors.response.use(
   }
 )
 
-export default axios
+export default ({
+  api,
+  method = 'post',
+  param,
+  config = {},
+}: RequestParams): any => {
+  const params = {
+    url: api,
+    method,
+    ...config,
+  }
+  const ginseng = method === 'get' ? 'params' : 'data'
+  params[ginseng] = param
+  return axios(params)
+}

@@ -10,6 +10,7 @@ import {
   Menu,
   message,
   Table,
+  Result,
 } from 'ant-design-vue'
 import { App } from 'vue'
 
@@ -47,5 +48,6 @@ export default {
       .use(Menu)
       .use(Tooltip)
       .use(Table)
+      .use(Result)
   },
 }

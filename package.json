@@ -19,7 +19,7 @@
     "hls.js": "^1.0.7",
     "js-cookie": "^3.0.0",
     "nplayer": "^1.0.9",
-    "vue": "^3.2.6",
+    "vue": "^3.2.20",
     "vue-router": "^4.0.11",
     "vuex": "^4.0.2"
   },
@@ -47,7 +47,7 @@
     "sass": "^1.38.1",
     "tailwindcss": "^2.2.7",
     "typescript": "^4.1.3",
-    "vite": "^2.6.5",
+    "vite": "^2.6.7",
     "vite-plugin-style-import": "^1.2.1"
   }
 }

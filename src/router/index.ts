@@ -14,7 +14,7 @@ const router = createRouter({
  */
 router.beforeEach((to, from) => {
   if (to.name !== 'login') {
-    const token = jsCookie.get('access_token')
+    const token = jsCookie.get('satoken')
     if (!token) {
       return {
         name: 'login',

@@ -4,7 +4,8 @@
       v-model:collapsed="collapsed"
       :trigger="null"
       collapsible>
-      <div class="logo">R</div>
+      <div class="logo"
+        @click="onLogoClick">R</div>
       <a-menu theme="dark"
         mode="inline"
         v-model:selectedKeys="selectedKeys"
@@ -38,8 +39,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, onBeforeMount, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import {
   MenuUnfoldOutlined,
   ProjectOutlined,
@@ -51,15 +52,24 @@ export default defineComponent({
   components: { MenuUnfoldOutlined, ProjectOutlined, HomeOutlined },
   setup() {
     const router = useRouter()
+    const route = useRoute()
+    const selectedKeys = ref(['home'])
 
     const onMenuSelect = ({ key }: { key: string }) => {
       router.push({ name: key })
     }
+    const onLogoClick = () => {
+      router.push({ name: 'home' })
+    }
 
+    onBeforeMount(() => {
+      selectedKeys.value = [(route.name as string) || 'home']
+    })
     return {
       collapsed: ref(true),
-      selectedKeys: ref(['home']),
+      selectedKeys,
       onMenuSelect,
+      onLogoClick,
     }
   },
 })

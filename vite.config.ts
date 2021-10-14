@@ -30,7 +30,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3200',
+        target: 'https://fe.yang143.cn/retail',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

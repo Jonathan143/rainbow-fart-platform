@@ -39,7 +39,13 @@ const frameOut: RouteRecordRaw[] = [
 /**
  * 错误页面
  */
-const errorPage: RouteRecordRaw[] = []
+const errorPage: RouteRecordRaw[] = [
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('@/views/user/resultPage.vue'),
+  },
+]
 
 // 导出需要显示菜单的
 export const frameInRoutes = frameIn

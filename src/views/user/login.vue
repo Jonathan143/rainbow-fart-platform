@@ -7,8 +7,8 @@
         :rules="rules"
         @finish="handleFinish"
         @finishFailed="handleFinishFailed">
-        <a-form-item name="username">
-          <a-input v-model:value="formState.username"
+        <a-form-item name="loginName">
+          <a-input v-model:value="formState.loginName"
             placeholder="用户名">
             <template #prefix>
               <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
@@ -49,7 +49,7 @@ import {
   onUnmounted,
   UnwrapRef,
 } from 'vue'
-import axios from '@/plugins/api'
+import request from '@/plugins/api'
 import {
   RuleObject,
   ValidateErrorEntity,
@@ -57,9 +57,10 @@ import {
 import Cookies from 'js-cookie'
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 interface FormState {
-  username: string
+  loginName: string
   password: string
 }
 
@@ -69,10 +70,11 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
+    const store = useStore()
 
     const formRef = ref()
     const formState: UnwrapRef<FormState> = reactive({
-      username: '',
+      loginName: '',
       password: '',
     })
 
@@ -89,29 +91,35 @@ export default defineComponent({
       return Promise.resolve()
     }
 
+    // 表单校验规则
     const rules = {
-      username: [
+      loginName: [
         { required: true, validator: validatePass, trigger: 'change' },
       ],
       password: [
         { required: true, validator: validatePass2, trigger: 'change' },
       ],
     }
+    // 表单校验通过执行函数
     const handleFinish = (values: FormState) => {
-      console.log(values, formState.username)
+      console.log(values, formState.loginName)
       signIn()
     }
+
+    // 校验不通过时执行的函数
     const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
       console.log(errors)
     }
 
+    // 登录方法
     const signIn = async () => {
       try {
-        const { data } = await axios.post('user/login', formState)
+        const data = await request({ api: 'user/login', param: formState })
+        store.commit('updateUserInfo', data)
+        localStorage.setItem('BASE_USER_INFO', JSON.stringify(data))
         console.log('登录成功')
-        Cookies.set('access_token', data.token, { expires: 7 })
         const { redirect } = route.query
-        router.push({ path: (redirect as string) || '/home' })
+        router.push({ path: decodeURIComponent(redirect as string) || '/home' })
       } catch (error) {}
     }
 
