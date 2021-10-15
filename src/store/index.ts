@@ -12,4 +12,5 @@ export default createStore({
   },
   actions: {},
   modules: {},
+  strict: process.env.NODE_ENV !== 'production',
 })

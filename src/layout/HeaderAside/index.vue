@@ -26,9 +26,11 @@
     </a-layout-sider>
 
     <a-layout>
-      <a-layout-header class="rfp-layout-header">
+      <a-layout-header class="rfp-layout-header flex items-center justify-between">
         <menu-unfold-outlined class="trigger"
           @click="() => (collapsed = !collapsed)" />
+
+        <header-user />
       </a-layout-header>
 
       <a-layout-content class="rfp-layout-main">
@@ -39,17 +41,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   MenuUnfoldOutlined,
   ProjectOutlined,
   HomeOutlined,
 } from '@ant-design/icons-vue'
+import HeaderUser from './HeaderUser/index.vue'
 
 export default defineComponent({
   name: 'AsideHeader',
-  components: { MenuUnfoldOutlined, ProjectOutlined, HomeOutlined },
+  components: { MenuUnfoldOutlined, ProjectOutlined, HomeOutlined, HeaderUser },
   setup() {
     const router = useRouter()
     const route = useRoute()
@@ -62,9 +65,13 @@ export default defineComponent({
       router.push({ name: 'home' })
     }
 
-    onBeforeMount(() => {
-      selectedKeys.value = [(route.name as string) || 'home']
-    })
+    watch(
+      () => route.name,
+      (val) => {
+        selectedKeys.value = [(val as string) || 'home']
+      },
+      { immediate: true }
+    )
     return {
       collapsed: ref(true),
       selectedKeys,

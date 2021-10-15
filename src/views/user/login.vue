@@ -26,8 +26,9 @@
           </a-input>
         </a-form-item>
         <a-form-item class="mt-12">
-          <a-button class="w-full rounded"
+          <a-button class="w-full rounded flex items-center justify-center"
             type="primary"
+            :loading="isLoggingIn"
             html-type="submit">登录</a-button>
         </a-form-item>
       </a-form>
@@ -102,7 +103,6 @@ export default defineComponent({
     }
     // 表单校验通过执行函数
     const handleFinish = (values: FormState) => {
-      console.log(values, formState.loginName)
       signIn()
     }
 
@@ -111,9 +111,11 @@ export default defineComponent({
       console.log(errors)
     }
 
+    const isLoggingIn = ref(false)
     // 登录方法
     const signIn = async () => {
       try {
+        isLoggingIn.value = true
         const data = await request({ api: 'user/login', param: formState })
         store.commit('updateUserInfo', data)
         localStorage.setItem('BASE_USER_INFO', JSON.stringify(data))
@@ -121,12 +123,14 @@ export default defineComponent({
         const { redirect } = route.query
         router.push({ path: decodeURIComponent(redirect as string) || '/home' })
       } catch (error) {}
+      isLoggingIn.value = false
     }
 
     return {
       formState,
       formRef,
       rules,
+      isLoggingIn,
       handleFinishFailed,
       handleFinish,
     }

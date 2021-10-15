@@ -1,6 +1,8 @@
 import {
+  Avatar,
   Button,
   Card,
+  Dropdown,
   Tag,
   Form,
   Input,
@@ -38,8 +40,10 @@ export default {
     }
 
     app
+      .use(Avatar)
       .use(Button)
       .use(Card)
+      .use(Dropdown)
       .use(Tag)
       .use(Form)
       .use(Input)

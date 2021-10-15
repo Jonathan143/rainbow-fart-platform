@@ -1208,10 +1208,10 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-ant-design-vue@^2.2.6:
-  version "2.2.6"
-  resolved "https://registry.nlark.com/ant-design-vue/download/ant-design-vue-2.2.6.tgz#2acf45ea8bb2bb8a0e48a83fa9c6a827fef5236f"
-  integrity sha1-Ks9F6ouyu4oOSKg/qcaoJ/71I28=
+ant-design-vue@^2.2.8:
+  version "2.2.8"
+  resolved "https://registry.npmmirror.com/ant-design-vue/download/ant-design-vue-2.2.8.tgz#fa87cf6842d8ee9a0d8af393ff4099ecc4072f2b"
+  integrity sha1-+ofPaELY7poNivOT/0CZ7MQHLys=
   dependencies:
     "@ant-design/icons-vue" "^6.0.0"
     "@babel/runtime" "^7.10.5"
