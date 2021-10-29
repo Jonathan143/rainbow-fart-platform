@@ -2,20 +2,105 @@ import { defineConfig } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import styleImport from 'vite-plugin-style-import'
+import Components from 'unplugin-vue-components/vite'
+
+const ArcodComponentsNames = [
+  'Affix',
+  'Alert',
+  'Anchor',
+  'ArcoVue',
+  'AutoComplete',
+  'Avatar',
+  'BackTop',
+  'Badge',
+  'Breadcrumb',
+  'Button',
+  'Card',
+  'Carousel',
+  'Cascader',
+  'Checkbox',
+  'Collapse',
+  'Comment',
+  'ConfigProvider',
+  'DatePicker',
+  'Descriptions',
+  'Divider',
+  'Drawer',
+  'Dropdown',
+  'Empty',
+  'Form',
+  'Grid',
+  'Image',
+  'Input',
+  'InputNumber',
+  'InputTag',
+  'Layout',
+  'Link',
+  'List',
+  'Mention',
+  'Menu',
+  'Message',
+  'Modal',
+  'Notification',
+  'PageHeader',
+  'Pagination',
+  'Popconfirm',
+  'Popover',
+  'Progress',
+  'Radio',
+  'Rate',
+  'ResizeBox',
+  'Result',
+  'Select',
+  'Skeleton',
+  'Slider',
+  'Space',
+  'Spin',
+  'Split',
+  'Statistic',
+  'Steps',
+  'Switch',
+  'Table',
+  'Tabs',
+  'Tag',
+  'Textarea',
+  'TimePicker',
+  'Timeline',
+  'Tooltip',
+  'Transfer',
+  'Tree',
+  'TreeSelect',
+  'Trigger',
+  'Typography',
+  'Upload',
+  'addI18nMessages',
+  'getLocale',
+  'useLocale',
+]
 
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    styleImport({
-      libs: [
-        {
-          libraryName: 'ant-design-vue',
-          esModule: true,
-          resolveStyle: (name) => {
-            return `ant-design-vue/es/${name}/style/css.js`
-          },
+    Components({
+      dts: false,
+      resolvers: [
+        (name) => {
+          if (ArcodComponentsNames.includes(name.slice(1)))
+            return {
+              importName: name.slice(1),
+              path: '@arco-design/web-vue/es',
+              sideEffects: `@arco-design/web-vue/es/${name.replace(
+                /[A-Z]/g,
+                (w, i) => (i ? `${i === 1 ? '' : '-'}${w.toLowerCase()}` : '')
+              )}/style/css`,
+            }
+          else if (name.startsWith('Icon')) {
+            return {
+              importName: name,
+              path: '@arco-design/web-vue/es/icon',
+            }
+          }
         },
       ],
     }),

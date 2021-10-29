@@ -1,6 +1,6 @@
 import Axios, { AxiosRequestConfig, Method } from 'axios'
 
-import { message } from 'ant-design-vue'
+import { Message as message } from '@arco-design/web-vue'
 
 interface RequestParams {
   api: string
@@ -94,7 +94,7 @@ axios.interceptors.response.use(
         console.log(status, data)
         const content = getErrorCode2text(status, data)
 
-        message.error(content, undefined, callback)
+        message.error(content)
       }
     }
     // 请求服务未响应，error.response为undefined，走此分支

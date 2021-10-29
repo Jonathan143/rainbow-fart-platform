@@ -1,8 +1,8 @@
 import { App } from 'vue'
-import antd from './antd'
+import arcod from './arcod'
 
 export default {
   install(app: App) {
-    app.use(antd)
+    app.use(arcod)
   },
 }

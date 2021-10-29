@@ -3,25 +3,30 @@
     <div class="login__content px-14 pt-24 py-10 bg-white box-border rounded-xl">
       <a-form name="custom-validation"
         ref="formRef"
+        layout="vertical"
         :model="formState"
-        :rules="rules"
-        @finish="handleFinish"
-        @finishFailed="handleFinishFailed">
-        <a-form-item name="loginName">
-          <a-input v-model:value="formState.loginName"
+        @submit="handleFinish">
+        <a-form-item field="loginName"
+          hide-label
+          :rules="rules.loginName"
+          :validate-trigger="['change','input']">
+          <a-input v-model="formState.loginName"
             placeholder="用户名">
             <template #prefix>
-              <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
+              <icon-user />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item name="password">
-          <a-input v-model:value="formState.password"
+        <a-form-item field="password"
+          hide-label
+          :rules="rules.password"
+          :validate-trigger="['change', 'input']">
+          <a-input v-model="formState.password"
             type="password"
             autocomplete="off"
             placeholder="密码">
             <template #prefix>
-              <LockOutlined style="color: rgba(0, 0, 0, 0.25)" />
+              <icon-lock />
             </template>
           </a-input>
         </a-form-item>
@@ -37,26 +42,10 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  watch,
-  watchEffect,
-  readonly,
-  computed,
-  onMounted,
-  onUpdated,
-  onUnmounted,
-  UnwrapRef,
-} from 'vue'
+import { defineComponent, ref, reactive, UnwrapRef } from 'vue'
 import request from '@/plugins/api'
-import {
-  RuleObject,
-  ValidateErrorEntity,
-} from 'ant-design-vue/es/form/interface'
+import { ValidatedError } from '@arco-design/web-vue/es/form/interface'
 import Cookies from 'js-cookie'
-import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -67,7 +56,6 @@ interface FormState {
 
 export default defineComponent({
   name: 'UserLogin',
-  components: { LockOutlined, UserOutlined },
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -79,35 +67,32 @@ export default defineComponent({
       password: '',
     })
 
-    const validatePass = async (rule: RuleObject, value: string) => {
-      if (value === '') {
-        return Promise.reject('请输入用户名')
-      }
-      return Promise.resolve()
-    }
-    const validatePass2 = async (rule: RuleObject, value: string) => {
-      if (value === '') {
-        return Promise.reject('请输入密码')
-      }
-      return Promise.resolve()
-    }
-
-    // 表单校验规则
-    const rules = {
+    const rules = reactive({
       loginName: [
-        { required: true, validator: validatePass, trigger: 'change' },
+        { required: true, message: '请输入用户名' },
+        { minLength: 2, maxLength: 10, message: '用户名长度为2-10位' },
       ],
       password: [
-        { required: true, validator: validatePass2, trigger: 'change' },
+        { required: true, message: '请输入密码' },
+        { maxLength: 20, minLength: 6, message: '请输入6-20位密码' },
       ],
-    }
+    })
+
     // 表单校验通过执行函数
-    const handleFinish = (values: FormState) => {
-      signIn()
+    const handleFinish = ({
+      values,
+      errors,
+    }: {
+      values: FormState
+      errors: undefined | Record<string, ValidatedError>
+    }) => {
+      console.log(values)
+      if (!errors) signIn()
+      //
     }
 
     // 校验不通过时执行的函数
-    const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
+    const handleFinishFailed = (errors: ValidatedError) => {
       console.log(errors)
     }
 
@@ -129,8 +114,8 @@ export default defineComponent({
     return {
       formState,
       formRef,
-      rules,
       isLoggingIn,
+      rules,
       handleFinishFailed,
       handleFinish,
     }
