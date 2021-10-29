@@ -43,16 +43,11 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  MenuUnfoldOutlined,
-  ProjectOutlined,
-  HomeOutlined,
-} from '@ant-design/icons-vue'
 import HeaderUser from './HeaderUser/index.vue'
 
 export default defineComponent({
   name: 'AsideHeader',
-  components: { MenuUnfoldOutlined, ProjectOutlined, HomeOutlined, HeaderUser },
+  components: { HeaderUser },
   setup() {
     const router = useRouter()
     const route = useRoute()

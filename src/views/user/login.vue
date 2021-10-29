@@ -56,7 +56,6 @@ import {
   ValidateErrorEntity,
 } from 'ant-design-vue/es/form/interface'
 import Cookies from 'js-cookie'
-import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -67,7 +66,7 @@ interface FormState {
 
 export default defineComponent({
   name: 'UserLogin',
-  components: { LockOutlined, UserOutlined },
+  components: {},
   setup() {
     const route = useRoute()
     const router = useRouter()
