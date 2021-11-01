@@ -123,7 +123,7 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    include: ['@ant-design/icons-vue'],
+    include: [],
   },
 
   css: {

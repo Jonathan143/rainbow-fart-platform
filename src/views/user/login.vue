@@ -41,8 +41,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, UnwrapRef } from 'vue'
+<script lang="ts" setup>
+import { ref, reactive, UnwrapRef } from 'vue'
 import request from '@/plugins/api'
 import { ValidatedError } from '@arco-design/web-vue/es/form/interface'
 import Cookies from 'js-cookie'
@@ -54,73 +54,59 @@ interface FormState {
   password: string
 }
 
-export default defineComponent({
-  name: 'UserLogin',
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
 
-    const formRef = ref()
-    const formState: UnwrapRef<FormState> = reactive({
-      loginName: '',
-      password: '',
-    })
-
-    const rules = reactive({
-      loginName: [
-        { required: true, message: '请输入用户名' },
-        { minLength: 2, maxLength: 10, message: '用户名长度为2-10位' },
-      ],
-      password: [
-        { required: true, message: '请输入密码' },
-        { maxLength: 20, minLength: 6, message: '请输入6-20位密码' },
-      ],
-    })
-
-    // 表单校验通过执行函数
-    const handleFinish = ({
-      values,
-      errors,
-    }: {
-      values: FormState
-      errors: undefined | Record<string, ValidatedError>
-    }) => {
-      console.log(values)
-      if (!errors) signIn()
-      //
-    }
-
-    // 校验不通过时执行的函数
-    const handleFinishFailed = (errors: ValidatedError) => {
-      console.log(errors)
-    }
-
-    const isLoggingIn = ref(false)
-    // 登录方法
-    const signIn = async () => {
-      try {
-        isLoggingIn.value = true
-        const data = await request({ api: 'user/login', param: formState })
-        store.commit('updateUserInfo', data)
-        localStorage.setItem('BASE_USER_INFO', JSON.stringify(data))
-        console.log('登录成功')
-        const { redirect } = route.query
-        router.push({ path: decodeURIComponent(redirect as string) || '/home' })
-      } catch (error) {}
-      isLoggingIn.value = false
-    }
-
-    return {
-      formState,
-      formRef,
-      isLoggingIn,
-      rules,
-      handleFinishFailed,
-      handleFinish,
-    }
-  },
+const formRef = ref()
+const formState: UnwrapRef<FormState> = reactive({
+  loginName: '',
+  password: '',
 })
+
+const rules = reactive({
+  loginName: [
+    { required: true, message: '请输入用户名' },
+    { minLength: 2, maxLength: 10, message: '用户名长度为2-10位' },
+  ],
+  password: [
+    { required: true, message: '请输入密码' },
+    { maxLength: 20, minLength: 6, message: '请输入6-20位密码' },
+  ],
+})
+
+// 表单校验通过执行函数
+const handleFinish = ({
+  values,
+  errors,
+}: {
+  values: FormState
+  errors: undefined | Record<string, ValidatedError>
+}) => {
+  console.log(values)
+  if (!errors) signIn()
+  //
+}
+
+// 校验不通过时执行的函数
+const handleFinishFailed = (errors: ValidatedError) => {
+  console.log(errors)
+}
+
+const isLoggingIn = ref(false)
+// 登录方法
+const signIn = async () => {
+  try {
+    isLoggingIn.value = true
+    const data = await request({ api: 'user/login', param: formState })
+    store.commit('updateUserInfo', data)
+    localStorage.setItem('BASE_USER_INFO', JSON.stringify(data))
+    console.log('登录成功')
+    const { redirect } = route.query
+    router.push({ path: decodeURIComponent(redirect as string) || '/home' })
+  } catch (error) {}
+  isLoggingIn.value = false
+}
 </script>
 
 <style lang="scss" scoped>

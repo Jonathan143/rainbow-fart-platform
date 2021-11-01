@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 enum SUBTITLES {
@@ -19,31 +19,24 @@ enum SUBTITLES {
   'Sorry, the server is wrong.' = 500,
 }
 
-export default defineComponent({
-  name: 'resultPage',
-  setup() {
-    const router = useRouter()
-    const route = useRoute()
+const router = useRouter()
+const route = useRoute()
 
-    const resultStatus = ref('404')
-    const subTitle = ref(SUBTITLES[404])
-    onMounted(() => {
-      const { status = '404' } = route.query
-      if (['404', '403', '500'].includes(status as string)) {
-        resultStatus.value = status as string
-        status && (subTitle.value = SUBTITLES[+status as 403 | 404 | 500])
+const resultStatus = ref('404')
+const subTitle = ref(SUBTITLES[404])
+onMounted(() => {
+  const { status = '404' } = route.query
+  if (['404', '403', '500'].includes(status as string)) {
+    resultStatus.value = status as string
+    status && (subTitle.value = SUBTITLES[+status as 403 | 404 | 500])
 
-        console.log(subTitle.value)
-      }
-    })
-
-    const onBackHomeClick = () => {
-      router.replace({ name: 'home' })
-    }
-
-    return { resultStatus, onBackHomeClick }
-  },
+    console.log(subTitle.value)
+  }
 })
+
+const onBackHomeClick = () => {
+  router.replace({ name: 'home' })
+}
 </script>
 
 <style lang="scss" scoped>

@@ -5,9 +5,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
-  defineComponent,
   ref,
   reactive,
   watch,
@@ -18,29 +17,21 @@ import {
 } from 'vue'
 import axios from '@/plugins/api'
 
-export default defineComponent({
-  name: 'Project',
-  components: {},
-  setup() {
-    const tableData = ref([])
-    const columns = ref([
-      {
-        title: '项目名',
-        dataIndex: 'name',
-      },
-      {
-        title: '年龄',
-        dataIndex: 'age',
-      },
-      {
-        title: '住址',
-        dataIndex: 'address',
-      },
-    ])
-
-    onMounted(() => {})
-
-    return { tableData, columns }
+const tableData = ref([])
+const columns = ref([
+  {
+    title: '项目名',
+    dataIndex: 'name',
   },
-})
+  {
+    title: '年龄',
+    dataIndex: 'age',
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+  },
+])
+
+onMounted(() => {})
 </script>
