@@ -1,10 +1,10 @@
-import Axios, { AxiosRequestConfig, Method } from 'axios'
+import Axios, { AxiosPromise, AxiosRequestConfig, Method } from 'axios'
 
 import { Message as message } from '@arco-design/web-vue'
 
 interface RequestParams {
   api: string
-  param: Record<string, any>
+  param?: Record<string, any>
   method?: Method
   config?: AxiosRequestConfig
 }
@@ -116,12 +116,27 @@ axios.interceptors.response.use(
   }
 )
 
-export default ({
+// export default ({
+//   api,
+//   method = 'post',
+//   param = {},
+//   config = {},
+// }: RequestParams) => {
+//   const params = {
+//     url: api,
+//     method,
+//     ...config,
+//   }
+//   const ginseng = method === 'get' ? 'params' : 'data'
+//   params[ginseng] = param
+//   return axios(params)
+// }
+export default function <T = any>({
   api,
   method = 'post',
-  param,
+  param = {},
   config = {},
-}: RequestParams): any => {
+}: RequestParams): Promise<T> {
   const params = {
     url: api,
     method,
@@ -129,5 +144,5 @@ export default ({
   }
   const ginseng = method === 'get' ? 'params' : 'data'
   params[ginseng] = param
-  return axios(params)
+  return axios.request(params)
 }

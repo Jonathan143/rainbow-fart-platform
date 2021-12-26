@@ -34,6 +34,11 @@ const frameOut: RouteRecordRaw[] = [
     name: 'login',
     component: () => import('@/views/user/login.vue'),
   },
+  {
+    path: '/ua',
+    name: 'uaStatistics',
+    component: () => import('@/views/project/uaStatistics.vue'),
+  },
 ]
 
 /**

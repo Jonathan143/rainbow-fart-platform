@@ -1,7 +1,6 @@
 <template>
   <div class="project">
-    <a-table :columns="columns"
-      :data-source="tableData"></a-table>
+    <a-table :columns="columns" :data-source="tableData"></a-table>
   </div>
 </template>
 
@@ -15,7 +14,7 @@ import {
   computed,
   onMounted,
 } from 'vue'
-import axios from '@/plugins/api'
+import request from '@/plugins/api'
 
 const tableData = ref([])
 const columns = ref([
@@ -33,5 +32,5 @@ const columns = ref([
   },
 ])
 
-onMounted(() => {})
+onMounted(() => { })
 </script>
