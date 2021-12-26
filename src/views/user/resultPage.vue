@@ -1,7 +1,7 @@
 <template>
   <a-result :status="resultStatus"
     :title="resultStatus"
-    sub-title="Sorry, the page you visited does not exist.">
+    subtitle="Sorry, the page you visited does not exist.">
     <template #extra>
       <a-button type="primary"
         @click="onBackHomeClick">Back Home</a-button>
@@ -9,7 +9,7 @@
   </a-result>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 

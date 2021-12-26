@@ -3,6 +3,7 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
+import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 
 const ArcodComponentsNames = [
   'Affix',
@@ -84,25 +85,7 @@ export default defineConfig({
     vueJsx(),
     Components({
       dts: false,
-      resolvers: [
-        (name) => {
-          if (ArcodComponentsNames.includes(name.slice(1)))
-            return {
-              importName: name.slice(1),
-              path: '@arco-design/web-vue/es',
-              sideEffects: `@arco-design/web-vue/es/${name.replace(
-                /[A-Z]/g,
-                (w, i) => (i ? `${i === 1 ? '' : '-'}${w.toLowerCase()}` : '')
-              )}/style/css`,
-            }
-          else if (name.startsWith('Icon')) {
-            return {
-              importName: name,
-              path: '@arco-design/web-vue/es/icon',
-            }
-          }
-        },
-      ],
+      resolvers: [ArcoResolver({ resolveIcons: true })],
     }),
   ],
 

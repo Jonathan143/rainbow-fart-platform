@@ -1,7 +1,7 @@
 <template>
   <div class="project">
-    <!-- <a-table :columns="columns"
-      :data-source="tableData"></a-table> -->
+    <a-table :columns="columns"
+      :data-source="tableData"></a-table>
   </div>
 </template>
 
