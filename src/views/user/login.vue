@@ -1,27 +1,31 @@
 <template>
   <div class="login flex items-center justify-center">
-    <div class="login__content px-14 pt-24 py-10 bg-white box-border rounded-xl">
-      <a-form name="custom-validation"
+    <div
+      class="login__content px-14 pt-24 py-10 bg-white box-border rounded-xl">
+      <a-form
         ref="formRef"
+        name="custom-validation"
         layout="vertical"
         :model="formState"
         @submit="handleFinish">
-        <a-form-item field="loginName"
+        <a-form-item
+          field="username"
           hide-label
-          :rules="rules.loginName"
-          :validate-trigger="['change','input']">
-          <a-input v-model="formState.loginName"
-            placeholder="用户名">
+          :rules="rules.username"
+          :validate-trigger="['change', 'input']">
+          <a-input v-model="formState.username" placeholder="用户名">
             <template #prefix>
               <icon-user />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item field="password"
+        <a-form-item
+          field="password"
           hide-label
           :rules="rules.password"
           :validate-trigger="['change', 'input']">
-          <a-input v-model="formState.password"
+          <a-input
+            v-model="formState.password"
             type="password"
             autocomplete="off"
             placeholder="密码">
@@ -31,10 +35,13 @@
           </a-input>
         </a-form-item>
         <a-form-item class="mt-12">
-          <a-button class="w-full rounded flex items-center justify-center"
+          <a-button
+            class="w-full rounded flex items-center justify-center"
             type="primary"
             :loading="isLoggingIn"
-            html-type="submit">登录</a-button>
+            html-type="submit">
+            登录
+          </a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -42,36 +49,34 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, UnwrapRef } from 'vue'
 import request from '@/plugins/api'
 import { ValidatedError } from '@arco-design/web-vue/es/form/interface'
 import Cookies from 'js-cookie'
 import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 
 interface FormState {
-  loginName: string
+  username: string
   password: string
 }
 
 const route = useRoute()
 const router = useRouter()
-const store = useStore()
+const userStore = useUserStore()
 
 const formRef = ref()
-const formState: UnwrapRef<FormState> = reactive({
-  loginName: '',
+const formState = reactive({
+  username: '',
   password: '',
 })
 
 const rules = reactive({
-  loginName: [
+  username: [
     { required: true, message: '请输入用户名' },
-    { minLength: 2, maxLength: 10, message: '用户名长度为2-10位' },
+    { minLength: 2, maxLength: 20, message: '用户名长度为2-20位' },
   ],
   password: [
     { required: true, message: '请输入密码' },
-    { maxLength: 20, minLength: 6, message: '请输入6-20位密码' },
+    { maxLength: 20, minLength: 1, message: '请输入1-20位密码' },
   ],
 })
 
@@ -83,7 +88,6 @@ const handleFinish = ({
   values: FormState
   errors: undefined | Record<string, ValidatedError>
 }) => {
-  console.log(values)
   if (!errors) signIn()
   //
 }
@@ -99,11 +103,14 @@ const signIn = async () => {
   try {
     isLoggingIn.value = true
     const data = await request({ api: 'user/login', param: formState })
-    store.commit('updateUserInfo', data)
+    userStore.updateUserInfo(data)
+
     localStorage.setItem('BASE_USER_INFO', JSON.stringify(data))
-    console.log('登录成功')
+    Cookies.set('geekadmin-token', data.token, { expires: 5 })
     const { redirect } = route.query
-    router.push({ path: decodeURIComponent(redirect as string) || '/home' })
+    router.push({
+      path: redirect ? decodeURIComponent(redirect as string) : '/home',
+    })
   } catch (error) {}
   isLoggingIn.value = false
 }

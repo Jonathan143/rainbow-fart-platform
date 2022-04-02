@@ -54,7 +54,7 @@ const getErrorCode2text = (status: number, data: { error: string }): string => {
 }
 
 // Request 过滤器
-axios.interceptors.request.use((request) => {
+axios.interceptors.request.use(request => {
   const { params } = request
 
   // 过滤空参数
@@ -77,12 +77,12 @@ axios.interceptors.request.use((request) => {
 
 // Response 过滤器
 axios.interceptors.response.use(
-  (response) => {
+  response => {
     const { data } = response
-    return data?.data
+    return data?.data || data
   },
   /** 请求无响应 */
-  (error) => {
+  error => {
     if (error.response) {
       const { config, data, status } = error.response
       const show = config.message?.show ?? true
@@ -113,24 +113,9 @@ axios.interceptors.response.use(
       }
     }
     throw error
-  }
+  },
 )
 
-// export default ({
-//   api,
-//   method = 'post',
-//   param = {},
-//   config = {},
-// }: RequestParams) => {
-//   const params = {
-//     url: api,
-//     method,
-//     ...config,
-//   }
-//   const ginseng = method === 'get' ? 'params' : 'data'
-//   params[ginseng] = param
-//   return axios(params)
-// }
 export default function <T = any>({
   api,
   method = 'post',

@@ -19,6 +19,7 @@ import {
   TooltipComponent,
   LegendComponent,
   GraphicComponent,
+  DataZoomComponent,
 } from 'echarts/components'
 
 use([
@@ -30,6 +31,7 @@ use([
   TooltipComponent,
   LegendComponent,
   GraphicComponent,
+  DataZoomComponent,
 ])
 
 export default {

@@ -1,18 +1,15 @@
 <template>
-  <a-result :status="resultStatus"
+  <a-result
+    :status="resultStatus"
     :title="resultStatus"
     subtitle="Sorry, the page you visited does not exist.">
     <template #extra>
-      <a-button type="primary"
-        @click="onBackHomeClick">Back Home</a-button>
+      <a-button type="primary" @click="onBackHomeClick">Back Home</a-button>
     </template>
   </a-result>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-
 enum SUBTITLES {
   'Sorry, you are not authorized to access this page.' = 403,
   'Sorry, the page you visited does not exist.' = 404,
@@ -39,5 +36,4 @@ const onBackHomeClick = () => {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

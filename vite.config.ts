@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
   plugins: [
@@ -12,6 +13,17 @@ export default defineConfig({
     Components({
       dts: false,
       resolvers: [ArcoResolver({ resolveIcons: true })],
+    }),
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-router',
+        '@vueuse/core',
+        {
+          '@/store': ['useUserStore'],
+        },
+      ],
+      dts: './src/types/auto-imports.d.ts',
     }),
   ],
 
@@ -26,7 +38,16 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3200',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+  preview: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3200',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },

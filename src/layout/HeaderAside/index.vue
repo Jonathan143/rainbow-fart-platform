@@ -1,12 +1,10 @@
 <template>
-  <a-layout class="vh-100"
-    id="rfp-layout-header-aside-group">
-    <a-layout-sider class="rfp-layout-sider"
-      collapsible
-      breakpoint="xl">
+  <a-layout class="vh-100" id="rfp-layout-header-aside-group">
+    <a-layout-sider class="rfp-layout-sider" collapsible breakpoint="xl">
       <div class="logo flex items-center justify-center">R</div>
 
-      <a-menu :defaultOpenKeys="['4']"
+      <a-menu
+        :defaultOpenKeys="['4']"
         :defaultSelectedKeys="['4_1']"
         :style="{ width: '100%' }"
         @menuItemClick="onClickMenuItem">
@@ -21,7 +19,8 @@
         <a-sub-menu key="4">
           <template #title>
             <span>
-              <IconCalendar />Navigation 4
+              <IconCalendar />
+              Navigation 4
             </span>
           </template>
           <a-menu-item key="4_1">Menu 1</a-menu-item>
@@ -36,11 +35,12 @@
       </template>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="padding-left: 20px;">
-        Header
+      <a-layout-header class="h-14 flex items-center px-6 justify-between">
+        <div>Header</div>
+        <HeaderUser />
       </a-layout-header>
-      <a-layout style="padding: 0 24px;">
-        <a-breadcrumb :style="{ margin: '16px 0' }">
+      <a-layout style="padding: 0 24px">
+        <a-breadcrumb>
           <a-breadcrumb-item>Home</a-breadcrumb-item>
           <a-breadcrumb-item>List</a-breadcrumb-item>
           <a-breadcrumb-item>App</a-breadcrumb-item>
@@ -55,9 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-// import HeaderUser from './HeaderUser/index.vue'
+import HeaderUser from './HeaderUser/index.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -73,10 +71,10 @@ const onLogoClick = () => {
 
 watch(
   () => route.name,
-  (val) => {
+  val => {
     selectedKeys.value = [(val as string) || 'home']
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 

@@ -1,25 +1,37 @@
 <template>
   <div class="ua-statistics">
-    <v-chart style="height: 400px;" :option="op" @click="onChartClick" />
+    <v-chart style="height: 400px" :option="op" @click="onChartClick" />
   </div>
-</template> 
+</template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive, onBeforeMount } from 'vue'
 import request from '@/plugins/api'
 
-type Major = { major: string, total: number }
+type Major = { major: string; total: number }
 interface UAStatistics {
   name: string
   total: number
   majorList: Major[]
 }
 
-
 const op = ref({
   xAxis: {
-    data: [] as string[]
+    data: [] as string[],
+    axisTick: {
+      alignWithLabel: true,
+    },
+    axisLabel: {
+      // rotate: -90,
+    },
   },
+  dataZoom: [
+    {
+      type: 'inside',
+    },
+    {
+      type: 'slider',
+    },
+  ],
   yAxis: {},
   legend: {},
   tooltip: {},
@@ -31,10 +43,10 @@ const op = ref({
     data: [] as any[],
     universalTransition: {
       enabled: true,
-      divideShape: 'clone'
-    }
+      divideShape: 'clone',
+    },
   },
-  graphic: [] as any
+  graphic: [] as any,
 })
 
 const uaStatistics = ref<UAStatistics[]>([])
@@ -48,32 +60,37 @@ const onChartClick = (e: { data: UAStatistics }) => {
         type: 'text',
         left: 50,
         top: 20,
+        $action: '',
         style: {
           text: 'Back',
-          fontSize: 18
+          fontSize: 18,
         },
-        onclick: initData
-      }
+        onclick: initData,
+      },
     ]
   }
-
 }
 
 const initData = () => {
-  op.value.xAxis.data = uaStatistics.value.map(item => (item.name))
-  op.value.series.data = uaStatistics.value.map(item => ({ value: item.total, groupId: item.name, majorList: item.majorList }))
+  op.value.xAxis.data = uaStatistics.value.map(item => item.name)
+  op.value.series.data = uaStatistics.value.map(item => ({
+    value: item.total,
+    groupId: item.name,
+    majorList: item.majorList,
+  }))
+  op.value.graphic[0] && (op.value.graphic[0].$action = 'remove')
 }
 
 onBeforeMount(async () => {
   try {
-    const data = await request<UAStatistics[]>({ api: 'browser/type_total', method: 'get' })
+    const data = await request<UAStatistics[]>({
+      api: 'browser/type_total',
+      method: 'get',
+    })
     uaStatistics.value = data
 
     initData()
-  } catch (error) {
-
-  }
-
+  } catch (error) {}
 })
 </script>
 

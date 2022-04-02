@@ -1,16 +1,7 @@
-import { createStore } from 'vuex'
+import { createPinia } from 'pinia'
+import { useUserStore } from './modules/user'
 
-export default createStore({
-  state: {
-    userInfo: {},
-  },
-  getters: {},
-  mutations: {
-    updateUserInfo(state, value) {
-      state.userInfo = value
-    },
-  },
-  actions: {},
-  modules: {},
-  strict: process.env.NODE_ENV !== 'production',
-})
+const pinia = createPinia()
+
+export { useUserStore }
+export default pinia

@@ -5,15 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  reactive,
-  watch,
-  watchEffect,
-  readonly,
-  computed,
-  onMounted,
-} from 'vue'
 import request from '@/plugins/api'
 
 const tableData = ref([])
@@ -32,5 +23,5 @@ const columns = ref([
   },
 ])
 
-onMounted(() => { })
+onMounted(() => {})
 </script>
